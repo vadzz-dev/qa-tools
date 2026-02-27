@@ -50,11 +50,12 @@ const helpers = 'function asyncTimeout(number): Promise<void>;';
 
 const getTypes = Utils.lazy(async (): Promise<{ client: string; server: string; natives: string }> => {
     const [client, server, shared, natives] = await Promise.all([
-        fetch('https://raw.githubusercontent.com/altmp/altv-types/master/client/index.d.ts').then(r => r.text()),
-        fetch('https://raw.githubusercontent.com/altmp/altv-types/master/server/index.d.ts').then(r => r.text()),
-        fetch('https://raw.githubusercontent.com/altmp/altv-types/master/shared/index.d.ts').then(r => r.text()),
-        fetch('https://raw.githubusercontent.com/altmp/altv-types/master/natives/index.d.ts').then(r => r.text()),
+        fetch('https://unpkg.com/@altv/types-client@latest/index.d.ts').then(r => r.text()),
+        fetch('https://unpkg.com/@altv/types-server@latest/index.d.ts').then(r => r.text()),
+        fetch('https://unpkg.com/@altv/types-shared@latest/index.d.ts').then(r => r.text()),
+        fetch('https://unpkg.com/@altv/types-natives@latest/index.d.ts').then(r => r.text()),
     ])
+    
     return {
         client: client.replace('declare module "alt-client"', 'namespace alt ') +
             shared.replace('declare module "alt-shared"', 'namespace alt ') + helpers,
